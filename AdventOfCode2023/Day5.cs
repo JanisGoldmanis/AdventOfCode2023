@@ -176,6 +176,20 @@ namespace AdventOfCode2023
                                 added = true;
                                 break;
                             }
+                            else
+                            {
+                                if (!start && !end)
+                                {
+                                    if (sourceStart > seedDomain[0] && sourceStart + range - 1 < seedDomain[1])
+                                    {
+                                        seedDomains.Add(new double[] { seedDomain[0], sourceStart - 1 });
+                                        seedDomains.Add(new double[] { sourceStart + range, seedDomain[1] });
+                                        seedDomain[0] = destinationStart;
+                                        seedDomain[1] += adjustment;
+                                        cycleResults.Add(seedDomain);
+                                    }
+                                }
+                            }
                         }  
                     }
                     if (!added)

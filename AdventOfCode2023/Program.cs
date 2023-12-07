@@ -7,8 +7,8 @@ class Program
 {
     static void Main()
     {
-       Day5 day5 = new Day5();
-       day5.Part1Modified();
+       Day7 day7 = new Day7();
+       day7.Part2();
         
     }
 }
