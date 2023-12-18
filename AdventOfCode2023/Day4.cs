@@ -75,8 +75,6 @@ namespace AdventOfCode2023
 
             Console.WriteLine("Starting Day4 Part2");
 
-            int total_sum = 0;
-
             List<int> ticketCounts = Enumerable.Repeat(1, dataList.Length).ToList();
 
             for(int i = 0; i<dataList.Length; i++)

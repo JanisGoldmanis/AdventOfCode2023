@@ -43,12 +43,12 @@ namespace AdventOfCode2023
                 int[] numbers = Array.ConvertAll(line.Split(' '), int.Parse);
                 results.Add(GoDeeper(numbers));
             }
-
+            
             double result = 0;
             foreach(int i in results)
             {
                 result += i;
-            }
+        }
             Console.WriteLine(result);
         }
 
@@ -68,7 +68,7 @@ namespace AdventOfCode2023
                 Array.Reverse(numbers);
                 results.Add(GoDeeper(numbers));
             }
-
+            
             double result = 0;
             foreach (int i in results)
             {
