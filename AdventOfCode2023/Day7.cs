@@ -94,11 +94,6 @@ namespace AdventOfCode2023
 
                 if (cardCount.Count == 5)
                 {
-                    //int maxDifference = 0;
-                    //for (int i = 0; i<= cardRank.Length-1; i++)
-                    //{
-                    //    maxDifference = Math.Max(maxDifference, cardRank[i+1] - cardRank[i]);               
-                    //}
                     handRank.Add(0);
                     continue;
                 }
