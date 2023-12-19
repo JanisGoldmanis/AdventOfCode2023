@@ -10,10 +10,6 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2023
 {
-
-
-
-
     internal class Day12
     {
         public class Line
@@ -82,8 +78,6 @@ namespace AdventOfCode2023
                 spaces += "    ";
             }
 
-
-
             Console.Write(spaces + "Sizes: ");
             foreach (int size in sizes)
             {
@@ -100,9 +94,7 @@ namespace AdventOfCode2023
                     Console.WriteLine($"{spaces}+0");
                     return 0;
                 }
-            }
-
-            
+            }            
 
             if (sizes.Length == 0)
             {
@@ -173,7 +165,6 @@ namespace AdventOfCode2023
             Console.WriteLine($"{spaces}Returning {result}");
             return result;
         }
-
 
         static int ValidPermutation(int[] sizes, string bar)
         {
@@ -247,13 +238,24 @@ namespace AdventOfCode2023
             Console.WriteLine($"Total combinations: {combinations}");
         }
 
+        public class LinePart2
+        {
+            public int[] Sizes { get; set; }
+            public string Bar { get; set; }
+        }
 
         public void Part2()
         {
-            string filePath = "Input/Day12.txt";
+            Console.WriteLine("Starting Day12 Part2");
+
+            string filePath = "Input/Day12Example.txt";
             var dataList = File.ReadAllLines(filePath);
 
-            Console.WriteLine("Starting Day12 Part2");
+            Dictionary<string, int> stringCombinations = new Dictionary<string, int>();
+
+
+
+
 
             
         }            
