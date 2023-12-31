@@ -1,15 +1,34 @@
 ﻿using AdventOfCode2023;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
 class Program
 {
+
+    static void ChangeDot(List<List<char>> input)
+    {
+        foreach( List<char> line in input )
+        {
+            line[0] = '#';
+        }
+    }
+
     static void Main()
     {
-       Day12 day = new Day12();
-        //day.Part1();
-        day.Part2();
 
+       
+       //Day14 day = new Day14();
+       ////day.Part1();
+       //day.Part2();
+
+
+        List<List<char>> input = new List<List<char>> { new() { '.', '.', '.' }, new() { '.', '.', '.' } };
+        ChangeDot(input);
+
+        foreach (var l in input)
+            Console.WriteLine(string.Join(",", l));
     }
 }

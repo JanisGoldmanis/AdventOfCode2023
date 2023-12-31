@@ -51,7 +51,7 @@ namespace AdventOfCode2023
 
         static bool VerifyBar(string originalBar, string newBar)
         {
-            for (int i = 0; i < Math.Min(newBar.Length, originalBar.Length); i++)
+            for (int i = 0; i < Math.Min(originalBar.Length, newBar.Length); i++)
             {
                 if (originalBar[i] == '?')
                 {
@@ -89,7 +89,14 @@ namespace AdventOfCode2023
 
             if (sizes.Length > 0)
             {
-                if (!VerifyBar(originalBar, newBar))
+                string checkBar = new string(newBar);
+
+
+                for (int i = 0; i< originalBar.Length - newBar.Length; i++)
+                {
+                    checkBar += ".";
+                }
+                if (!VerifyBar(originalBar, checkBar))
                 {
                     Console.WriteLine($"{spaces}+0");
                     return 0;
@@ -240,24 +247,146 @@ namespace AdventOfCode2023
 
         public class LinePart2
         {
-            public int[] Sizes { get; set; }
+            public List<int> Sizes { get; set; }
             public string Bar { get; set; }
         }
+
+
+        public double Part2Recursion(string bar, List<int> sizes, string barBuildup, Dictionary<string, double> combinationResults)
+        {
+            string iteration = barBuildup + string.Join(", ", sizes);
+
+            string iterationString = new string(barBuildup);
+
+            // Normal recursive end conditions
+            if (sizes.Count == 0)
+            {
+                int dotCount = bar.Length - barBuildup.Length;
+                string checkBar = new string(iterationString);
+
+                for (int i = 0; i < dotCount; i++)
+                {
+                    checkBar += ".";
+                }
+
+                if (VerifyBar(bar, checkBar))
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }                
+            }
+
+            double result = 0;
+
+            int necessaryAllocation = 0;
+            for ( int i = 0; i < sizes.Count; i++)
+            {
+                necessaryAllocation += sizes[i] + 1;
+            }
+            if (barBuildup.Length == 0) 
+            {
+                necessaryAllocation -= 1;
+            }
+
+            int maxRange = bar.Length - barBuildup.Length - necessaryAllocation;
+
+            for (int i = 0; i<=maxRange; i++)
+            {
+                string nextBarBuildup = new string(iterationString);
+
+                if (barBuildup.Length > 0)
+                {
+                    nextBarBuildup += ".";
+                }                
+
+                for (int j = 0; j < i; j++)
+                {
+                    nextBarBuildup += ".";
+                }
+
+
+                int nextSize = sizes[0];
+
+                List<int> nextIterationSizes = sizes.ToList();
+                nextIterationSizes.RemoveAt(0);
+
+                int leftOverBar = bar.Length - nextBarBuildup.Length - nextSize;
+                string leftOverSizes = string.Join(", ", nextIterationSizes);
+
+                string key = leftOverBar.ToString() + "-" + leftOverSizes;
+
+                double iterationResult = 0;
+
+                // Check if result is memoized
+                if (combinationResults.ContainsKey(key))
+                {
+                    result += combinationResults[key];
+                }
+
+                else
+                {
+                    for (int j = 0; j < nextSize; j++)
+                    {
+                        nextBarBuildup += "#";
+                    }
+
+                    if (VerifyBar(bar, nextBarBuildup))
+                    {
+                        iterationResult = Part2Recursion(bar, nextIterationSizes, nextBarBuildup, combinationResults);
+                        result += iterationResult;
+                        combinationResults[key] = iterationResult;
+                    }
+                }
+
+            }
+            return result;
+        }
+
 
         public void Part2()
         {
             Console.WriteLine("Starting Day12 Part2");
 
             string filePath = "Input/Day12Example.txt";
-            var dataList = File.ReadAllLines(filePath);
+            var dataList = File.ReadAllLines(filePath);            
 
-            Dictionary<string, int> stringCombinations = new Dictionary<string, int>();
+            List<LinePart2> lines = new List<LinePart2>();            
 
+            double combinations = 0;
 
+            foreach (string line in dataList)
+            {
+                string[] parts = line.Split(' ');
 
+                string barIter = parts[0];
+                string bar = parts[0];
 
+                for (int i = 0; i < 4; i++)
+                {
+                    bar += "?" + barIter;
+                }
 
-            
+                List<int> sizes = Array.ConvertAll(parts[1].Split(',').ToArray(), int.Parse).ToList();
+
+                List<int> repeatedList = Enumerable.Range(1, 5)
+                                           .SelectMany(_ => sizes)
+                                           .ToList();
+
+                lines.Add(new LinePart2 { Bar = bar, Sizes = repeatedList });
+            }
+
+            foreach (LinePart2 line in lines)
+            {
+                Console.WriteLine(line.Bar);
+                Dictionary<string, double> combinationResults = new Dictionary<string, double>();
+                combinations += Part2Recursion(line.Bar, line.Sizes, "", combinationResults);
+            }
+
+            Console.WriteLine(combinations);
+
         }            
     }
 }
