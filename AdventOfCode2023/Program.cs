@@ -18,15 +18,9 @@ class Program
 
     static void Main()
     {
-
-       
-       //Day14 day = new Day14();
-       ////day.Part1();
-       //day.Part2();
-
-
-        List<List<char>> input = new List<List<char>> { new() { '.', '.', '.' }, new() { '.', '.', '.' } };
-        ChangeDot(input);
+       Day17 day = new Day17();
+        day.Part1();
+        //day.Part2();
 
         foreach (var l in input)
             Console.WriteLine(string.Join(",", l));
